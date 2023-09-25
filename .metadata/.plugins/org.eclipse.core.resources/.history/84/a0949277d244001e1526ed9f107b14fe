@@ -1,0 +1,127 @@
+package in.mindcraft.BankingSystem;
+
+import java.util.*;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("*** <- Welcome to Banking System -> ***");
+		
+		System.out.println("Press C if your a Customer!");
+
+		System.out.println("Press A if your a Admin!");
+
+		String choice = sc.next();
+		
+		if(choice.equalsIgnoreCase("c")) 
+		{
+//			switch_customer();
+		}
+		else if(choice.equalsIgnoreCase("a")) 
+		{
+			System.out.print("Enter password: ");
+			String pwd = sc.next();
+			if(pwd.equalsIgnoreCase("admin")) {
+				switch_admin();
+			}
+		}
+		else 
+		{
+			System.out.println("Error!!!");
+			System.out.println("Your are trying to enter an unknown interface!");
+			System.out.println("Try Again!!!");
+			System.exit(0);
+		}
+		
+		Configuration con = new Configuration().configure();
+		ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(con.getProperties()).buildServiceRegistry();
+		SessionFactory sf = con.buildSessionFactory(reg);
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		tx.commit();
+	}
+
+	private static void switch_admin() {
+		Scanner sc = new Scanner(System.in);
+		
+		Admin admin = new Admin();
+		
+		while(true) {
+			int admin_choice;
+			int account_no;
+			String account_name;
+			System.out.println();
+			System.out.println("Admin Dashboard!");
+			System.out.println("1. Add a new Customer.");
+			System.out.println("2. Search for Customer Details via Account Number.");
+			System.out.println("3. Update for Customer Details via Account Number.");
+			System.out.println("4. Balance Inquiry via Customer Account Number.");
+			System.out.println("5. Close Account.");
+			System.out.println("6. Exit.");
+			System.out.print("Enter choice:");
+			admin_choice = sc.nextInt();
+			
+			switch(admin_choice) {
+			case 1:
+				admin.getDetails();
+				System.out.println();
+				System.out.println("Customer Details Entered Successfully!!");
+				session.save(admin);
+//				admin.insertRecord();
+//				admin.closeConnection();
+				break;
+			case 2:
+				System.out.println();
+				System.out.print("Enter Account Number to view Details:  ");
+				account_no = sc.nextInt();
+//				admin.checkRecord(account_no);
+//				admin.closeConnection();
+				break;
+				
+			case 3:
+				System.out.println();
+				System.out.print("Enter Account Number for updation process:  ");
+				account_no = sc.nextInt();
+				System.out.print("Enter New Account Holder Name:  ");
+				account_name = sc.next();
+//				admin.updateRecord(account_name, account_no);
+//				admin.closeConnection();
+				break;
+		
+			case 4:
+				System.out.println();
+				System.out.print("Enter Account Number for Balance Inquiry:  ");
+				account_no = sc.nextInt();
+//				admin.checkBalance(account_no);
+//				admin.closeConnection();
+				break;
+			
+			case 5:
+				System.out.println();
+				System.out.println("Enter Account Number for Deletion Process:  ");
+				account_no = sc.nextInt();
+//				admin.deleteRecord(account_no);
+//				admin.closeConnection();
+				break;		
+			
+			case 6:
+				System.out.println("Thankyou For banking with us!!!");
+//				admin.closeConnection();
+				System.exit(0);
+			}
+		}
+		
+	}
+
+
+}
